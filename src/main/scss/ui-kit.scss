@@ -1,0 +1,137 @@
+@import 'variables.scss';
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: $background;
+    display: flex;
+    font-family: 'Open Sans', sans-serif;
+    font-size: $base-font-size;
+    font-weight: 300;
+    letter-spacing: -0.006em;
+    min-height: 100vh;
+}
+
+button {
+    border: none;
+    color: $text;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    font-size: .9em;
+    justify-content: center;
+
+    &.primary {
+        align-self: stretch;
+        background-color: $button-primary;
+        border-radius: 4px;
+        padding: 11px;
+    }
+
+    &.text {
+        align-self: center;
+        background: none;
+    }
+}
+
+div,
+footer,
+header,
+main {
+    display: flex;
+    flex-direction: column;
+}
+
+footer {
+    align-items: center;
+    background: $footer;
+}
+
+footer,
+header,
+main {
+    padding: 10px;
+}
+
+h1 {
+    font-size: 2.2em;
+    font-weight: 400;
+    line-height: 3em;
+}
+
+header {
+    padding: 32px 40px;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 20px 0;
+    width: 100%;
+}
+
+input {
+    flex: 1;
+    font-family: 'Open Sans', sans-serif;
+}
+
+label {
+    font-size: .9em;
+}
+
+main {
+    align-items: stretch;
+    align-self: center;
+    flex: 1;
+    flex-direction: column;
+    max-width: 480px;
+}
+
+p {
+    font-size: 1em;
+    line-height: 1.5em;
+}
+
+.centered {
+    text-align: center;
+}
+
+.copy-field-wrapper {
+    background: rgba(255, 255, 255, .2);
+    border-radius: 4px;
+    flex-direction: row;
+    margin: 8px 0;
+    padding: 8px;
+
+    input {
+        background: none;
+        border: none;
+        color: $text;
+        font-size: 1em;
+        font-weight: 300;
+        pointer-events: none;
+        text-overflow: ellipsis;
+    }
+}
+
+.store-badge-wrapper {
+    align-items: center;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    margin: 0 5px;
+    width: 135px;
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8em;
+        line-height: 2em;
+    }
+
+    header {
+        padding: 16px 15px;
+    }
+}
