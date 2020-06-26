@@ -1,3 +1,5 @@
+import ConfigContext from 'components/ConfigContext';
+import Config from 'model/Config';
 import React, { PureComponent, ReactNode } from 'react';
 import { ReactSVG } from 'react-svg';
 
@@ -26,12 +28,16 @@ const SOCIAL_LINKS = {
  * Abstract class that implements the screen type component that all screens in the app should be derived from.
  */
 export default class Screen<P extends Props = Props, S extends State = State> extends PureComponent<P, S> {
+    static contextType = ConfigContext;
+
     /**
      * Implements PureComponent#render.
      *
      * @inheritdoc
      */
     public render(): ReactNode {
+        const config = this.context as Config;
+
         return (
             <>
                 <div id = 'top-gradient'></div>
@@ -78,17 +84,33 @@ export default class Screen<P extends Props = Props, S extends State = State> ex
                             <div id = 'mobile-links'>
                                 <a
                                     className = 'store-badge-wrapper'
-                                    href = 'https://apps.apple.com/us/app/jitsi-meet/id1165103905'
+                                    href = {
+                                        config.appStoreLink
+                                        || 'https://apps.apple.com/us/app/jitsi-meet/id1165103905'
+                                    }
                                     rel="noreferrer"
                                     target = '_blank'>
-                                    <ReactSVG src = '/assets/appstore.svg' />
+                                    <img src = '/assets/appstore.png' />
                                 </a>
                                 <a
                                     className = 'store-badge-wrapper'
-                                    href = 'https://play.google.com/store/apps/details?id=org.jitsi.meet'
+                                    href = {
+                                        config.playStoreLink
+                                        || 'https://play.google.com/store/apps/details?id=org.jitsi.meet'
+                                    }
                                     rel="noreferrer"
                                     target = '_blank'>
                                     <img src = '/assets/playstore.png' />
+                                </a>
+                                <a
+                                    className = 'store-badge-wrapper'
+                                    href = {
+                                        config.fdriodLink
+                                        || 'https://f-droid.org/en/packages/org.jitsi.meet'
+                                    }
+                                    rel="noreferrer"
+                                    target = '_blank'>
+                                    <img src = '/assets/fdroid.png' />
                                 </a>
                             </div>
                         </div>
@@ -109,11 +131,22 @@ export default class Screen<P extends Props = Props, S extends State = State> ex
                                 </a>
                             </p>
                             <div id = 'social-wrapper'>
-                                { Object.keys(SOCIAL_LINKS).map(key =>
+                                <a href = { config.fbLink || SOCIAL_LINKS.facebook }>
                                     <ReactSVG
-                                        key = { key }
-                                        src = { `/assets/${key}.svg` }
-                                        onClick = { this.openSocial(key) } />) }
+                                        src = '/assets/facebook.svg' />
+                                </a>
+                                <a href = { config.githubLink || SOCIAL_LINKS.github }>
+                                    <ReactSVG
+                                        src = '/assets/github.svg' />
+                                </a>
+                                <a href = { config.linkedInLink || SOCIAL_LINKS.linkedin }>
+                                    <ReactSVG
+                                        src = '/assets/linkedin.svg' />
+                                </a>
+                                <a href = { config.twitterLink || SOCIAL_LINKS.twitter }>
+                                    <ReactSVG
+                                        src = '/assets/twitter.svg' />
+                                </a>
                             </div>
                         </div>
                         <hr />
@@ -144,16 +177,5 @@ export default class Screen<P extends Props = Props, S extends State = State> ex
      */
     renderContent(): ReactNode {
         return null;
-    }
-
-    /**
-     * Callback to be invoked when the user clicks a social link.
-     *
-     * @param type The type (name) of the social link to open.
-     */
-    private openSocial(type: string): () => void {
-        return (): void => {
-            window.open(SOCIAL_LINKS[type], '_blank');
-        };
     }
 }

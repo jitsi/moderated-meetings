@@ -77,6 +77,19 @@
                 margin-right: 10px;
             }
 
+            #mobile-links {
+                align-items: stretch;
+                flex-direction: column;
+
+                > a {
+                    margin: 5px 0;
+
+                    > img {
+                        width: 100%;
+                    }
+                }
+            }
+
             #legal-links {
                 >a {
                     color: $text;
@@ -88,7 +101,7 @@
             #social-wrapper {
                 flex-direction: row;
 
-                >div {
+                >a {
                     cursor: pointer;
                     margin: 0 12px;
                 }
