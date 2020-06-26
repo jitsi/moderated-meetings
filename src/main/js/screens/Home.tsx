@@ -1,4 +1,5 @@
 import Screen, { Props as AbstractProps, State as AbstractState } from 'components/Screen';
+import analytics from 'functions/analytics';
 import { parseQueryParams } from 'functions/urlUtils';
 import React, { ReactNode } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
@@ -76,6 +77,8 @@ class Home extends Screen<Props, State> {
         if (this.params.hasOwnProperty('autoGenerate')) {
             this.onGenerateMeeting();
         }
+
+        analytics.sendAnalyticsEvent('screen:home');
     }
 
     /**
@@ -108,6 +111,8 @@ class Home extends Screen<Props, State> {
         const response = await (await fetch('/rest/rooms')).json();
 
         this.props.history.push(`/${response.meetingId}`);
+
+        analytics.sendAnalyticsEvent('action:generate-meeting');
     }
 
 }

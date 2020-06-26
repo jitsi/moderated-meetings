@@ -1,4 +1,5 @@
 import Screen, { Props as AbstractProps, State as AbstractState } from 'components/Screen';
+import analytics from 'functions/analytics';
 import { get } from 'functions/restUtils';
 import React, { ReactNode } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
@@ -54,6 +55,8 @@ class Join extends Screen<Props, State> {
             joinUrl,
             moderatorUrl
         });
+
+        analytics.sendAnalyticsEvent('screen:join');
     }
 
     /**
@@ -130,6 +133,8 @@ class Join extends Screen<Props, State> {
             document.execCommand('copy');
             copyText.setSelectionRange(0, 0);
             copyText.blur();
+
+            analytics.sendAnalyticsEvent('action:copy-url', { field: fieldId });
         };
     }
 
@@ -142,6 +147,8 @@ class Join extends Screen<Props, State> {
         if (moderatorUrl) {
             document.location.href = moderatorUrl;
         }
+
+        analytics.sendAnalyticsEvent('action:join-moderator');
     }
 
 }
