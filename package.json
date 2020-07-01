@@ -36,9 +36,11 @@
   "dependencies": {
     "amplitude-js": "6.2.0",
     "history": "4.10.1",
+    "i18next": "19.5.2",
     "jitsi-meet-logger": "github:jitsi/jitsi-meet-logger",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-i18next": "11.7.0",
     "react-router-dom": "5.2.0",
     "react-svg": "11.0.27",
     "uuidv4": "6.1.1"

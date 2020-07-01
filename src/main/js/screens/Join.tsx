@@ -3,6 +3,7 @@ import Screen, { Props as AbstractProps, State as AbstractState } from 'componen
 import analytics from 'functions/analytics';
 import { get } from 'functions/restUtils';
 import React, { ReactNode } from 'react';
+import { withTranslation } from 'react-i18next';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 /**
@@ -65,6 +66,7 @@ class Join extends Screen<Props, State> {
      * @inheritdoc
      */
     public renderContent(): ReactNode {
+        const { t } = this.props;
         const { joinUrl } = this.state;
 
         if (!joinUrl) {
@@ -75,18 +77,18 @@ class Join extends Screen<Props, State> {
             <>
                 <div className = 'content-box-section'>
                     <CopiableField
-                        label = 'Share meeting link for guests'
+                        label = { t('join.guestLinkLabel') }
                         value = { joinUrl } />
                 </div>
                 <hr className = 'main-separator' />
                 <div className = 'content-box-section'>
                     <CopiableField
-                        label = 'Share this page with other moderators'
+                        label = { t('join.moderatorLinkLabel') }
                         value = { document.location.href } />
                     <button
                         className = 'primary'
                         onClick = { this.joinAsModerator }>
-                        Join as moderator
+                        { t('join.moderatorJoinButton') }
                     </button>
                 </div>
             </>
@@ -108,4 +110,4 @@ class Join extends Screen<Props, State> {
 
 }
 
-export default withRouter(Join);
+export default withTranslation()(withRouter(Join));

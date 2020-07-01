@@ -36,7 +36,7 @@ module.exports = {
         path: path.join(__dirname, 'public')
     },
     resolve: {
-        extensions: ['.js', '.ts', '.tsx', '.jsx'],
+        extensions: [ '.js', '.ts', '.tsx', '.jsx' ],
         plugins: [ new TsconfigPathsPlugin({ configFile: './src/main/js/tsconfig.json' }) ]
     }
 };

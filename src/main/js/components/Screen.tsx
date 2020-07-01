@@ -1,17 +1,14 @@
 import ConfigContext from 'components/ConfigContext';
 import Config from 'model/Config';
 import React, { PureComponent, ReactNode } from 'react';
+import { WithTranslation } from 'react-i18next';
 import { ReactSVG } from 'react-svg';
 
 /**
  * Supertype interface for the Props of the component.
  */
-export interface Props {}
+export interface Props extends WithTranslation {}
 
-
-/**
- * Supertype interface for the State of the component.
- */
 export interface State {}
 
 /**
@@ -27,7 +24,7 @@ const SOCIAL_LINKS = {
 /**
  * Abstract class that implements the screen type component that all screens in the app should be derived from.
  */
-export default class Screen<P extends Props = Props, S extends State = State> extends PureComponent<P, S> {
+export default abstract class Screen<P extends Props = Props, S extends State = State> extends PureComponent<P, S> {
     static contextType = ConfigContext;
 
     /**
@@ -37,6 +34,7 @@ export default class Screen<P extends Props = Props, S extends State = State> ex
      */
     public render(): ReactNode {
         const config = this.context as Config;
+        const { t } = this.props;
 
         return (
             <>
@@ -44,11 +42,10 @@ export default class Screen<P extends Props = Props, S extends State = State> ex
                     <ReactSVG src = '/assets/jitsi-logo.svg' />
                     <div id = 'header-description'>
                         <h1 className = 'centered'>
-                            Jitsi Moderated Meetings
+                            { t('header.title') }
                         </h1>
                         <p className = 'centered'>
-                            Jitsi moderated meetings is a feature that lets you book a meeting
-                            URL in advance where you are the only moderator.
+                            { t('header.subTitle') }
                         </p>
                     </div>
                 </header>
@@ -61,7 +58,7 @@ export default class Screen<P extends Props = Props, S extends State = State> ex
                             className = 'line-wrapper'
                             id = 'mobile-wrapper'>
                             <p>
-                                Jitsi on mobile – download our apps and start a meeting from anywhere
+                                { t('footer.mobileLinksDescription') }
                             </p>
                             <div id = 'mobile-links'>
                                 <a
@@ -99,8 +96,7 @@ export default class Screen<P extends Props = Props, S extends State = State> ex
                         <hr />
                         <div className = 'line-wrapper'>
                             <p>
-                                Hello, Slack fans! Very pleased to meet you!
-                                There&apos;s no need to create an account. Just add our extension and off you go!
+                                { t('footer.slackLinksDescription') }
                             </p>
                             <div>
                                 <a
@@ -122,13 +118,13 @@ export default class Screen<P extends Props = Props, S extends State = State> ex
                                     href = 'https://jitsi.org/meet-jit-si-privacy/'
                                     rel="noreferrer"
                                     target = '_blank'>
-                                    Privacy Policy
+                                    { t('footer.privacyPolicy') }
                                 </a>
                                 <a
                                     href = 'http://jitsi.org/meet-jit-si-terms-of-service/'
                                     rel="noreferrer"
                                     target = '_blank'>
-                                    Terms &amp; Conditions
+                                    { t('footer.termsNConditions') }
                                 </a>
                             </p>
                             <div id = 'social-wrapper'>
@@ -162,10 +158,10 @@ export default class Screen<P extends Props = Props, S extends State = State> ex
                             </a>
                             <div>
                                 <span>
-                                    8x8 is a proud supporter of the Jitsi community.
+                                    { t('footer.legalNote1') }
                                 </span>
                                 <span>
-                                    © 8x8, Inc. All Rights Reserved.
+                                    { t('footer.legalNote2') }
                                 </span>
                             </div>
                         </div>

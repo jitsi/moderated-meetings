@@ -1,0 +1,30 @@
+{
+    "translation": {
+        "components": {
+            "copiableField": {
+                "copyLinkLabel": "Copy meeting link",
+                "linkCopiedLabel": "Link copied to clipboard"
+            }
+        },
+        "footer": {
+            "legalNote1": "8x8 is a proud supporter of the Jitsi community.",
+            "legalNote2": "© 8x8, Inc. All Rights Reserved.",
+            "mobileLinksDescription": "Jitsi on mobile – download our apps and start a meeting from anywhere",
+            "privacyPolicy": "Privacy Policy",
+            "slackLinksDescription": "Hello, Slack fans! Very pleased to meet you! There's no need to create an account. Just add our extension and off you go!",
+            "termsNConditions": "Terms & Conditions"
+        },
+        "header": {
+            "subTitle": "Jitsi moderated meetings is a feature that lets you book a meeting URL in advance where you are the only moderator.",
+            "title": "Jitsi Moderated Meetings"
+        },
+        "home": {
+            "getLinksButton": "Get me a moderated meeting!"
+        },
+        "join": {
+            "guestLinkLabel": "Share meeting link for guests",
+            "moderatorJoinButton": "Join as moderator",
+            "moderatorLinkLabel": "Share this page with other moderators"
+        }
+    }
+}

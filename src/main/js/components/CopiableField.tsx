@@ -1,9 +1,10 @@
 import analytics from 'functions/analytics';
 import React, { PureComponent, ReactNode } from 'react';
+import { WithTranslation, withTranslation } from 'react-i18next';
 import { ReactSVG } from 'react-svg';
 import { uuid } from 'uuidv4';
 
-interface Props {
+interface Props extends WithTranslation {
 
     /**
      * Label of the field to be rendered.
@@ -19,7 +20,7 @@ interface Props {
 /**
  * Implements a read only field component that has built in copy-content functionality.
  */
-export default class CopiableField extends PureComponent<Props> {
+class CopiableField extends PureComponent<Props> {
     fieldId: string;
     wrapperId: string;
 
@@ -45,6 +46,8 @@ export default class CopiableField extends PureComponent<Props> {
      * @inheritdoc
      */
     public render(): ReactNode {
+        const { t } = this.props;
+
         return (
             <div className = 'copiable-field'>
                 <label htmlFor = { this.fieldId }>
@@ -62,7 +65,7 @@ export default class CopiableField extends PureComponent<Props> {
 
                         { /* Label that gets rendered on hover */ }
                         <span className = 'copy-message'>
-                            Copy meeting link
+                            { t('components.copiableField.copyLinkLabel') }
                         </span>
 
                         <ReactSVG
@@ -72,7 +75,7 @@ export default class CopiableField extends PureComponent<Props> {
                         { /* Copied message that gets rendered for a few seconds after clicking the button */ }
                         <div className = 'copied-message'>
                             <span>
-                                Link copied to clipboard
+                                { t('components.copiableField.linkCopiedLabel') }
                             </span>
                             <ReactSVG src = '/assets/check.svg' />
                         </div>
@@ -109,3 +112,5 @@ export default class CopiableField extends PureComponent<Props> {
         }
     }
 }
+
+export default withTranslation()(CopiableField);
