@@ -48,6 +48,6 @@ public/app.js
 
 ### Locals ###
 deploy-local.sh
-src/main/resources/config.properties
 .DS_Store
 .env
+*.der

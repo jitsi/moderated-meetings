@@ -35,19 +35,19 @@ public class ModeratedRoomFactory {
     public JoinInfo getJoinInfo(ModeratedRoom room) throws NoSuchAlgorithmException, MalformedURLException {
         String roomName = Hashing.sha256().hashString(room.getMeetingId(), StandardCharsets.UTF_8).toString();
         Map<String, String> context = new HashMap<>();
-        String tenant = Config.get().getTargetTenant();
+        String tenant = Config.getTargetTenant();
         context.put(Constants.JWT_CLAIM_CONTEXT_GROUP, tenant);
 
         String token = JWT.create()
                 .withIssuer(Constants.JWT_ISSUER)
                 .withSubject(Constants.JWT_SUBJECT)
                 .withAudience(Constants.JWT_AUDIENCE)
-                .withKeyId(Config.get().getPrivateKeyId())
+                .withKeyId(Config.getPrivateKeyId())
                 .withClaim(Constants.JWT_CLAIM_ROOM, roomName)
                 .withClaim(Constants.JWT_CLAIM_CONTEXT, context)
                 .sign(this.algorithm);
 
-        StringBuffer baseUrl = new StringBuffer(Config.get().getDeploymentUrl())
+        StringBuffer baseUrl = new StringBuffer(Config.getDeploymentUrl())
                 .append(tenant)
                 .append("/")
                 .append(roomName);
@@ -73,7 +73,7 @@ public class ModeratedRoomFactory {
     private Algorithm initAlgorithm() {
         try {
             PKCS8EncodedKeySpec spec =  new PKCS8EncodedKeySpec(
-                    Files.readAllBytes(Paths.get(Config.get().getPrivateKeyFileName()))
+                    Files.readAllBytes(Paths.get(Config.getPrivateKeyFileName()))
             );
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             RSAPrivateKey privateKey = (RSAPrivateKey)keyFactory.generatePrivate(spec);

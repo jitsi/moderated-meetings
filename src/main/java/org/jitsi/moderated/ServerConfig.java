@@ -8,6 +8,6 @@ import org.springframework.stereotype.Component;
 public class ServerConfig implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
     @Override
     public void customize(ConfigurableWebServerFactory factory) {
-        factory.setPort(Config.get().getServerport());
+        factory.setPort(Config.getServerPort());
     }
 }

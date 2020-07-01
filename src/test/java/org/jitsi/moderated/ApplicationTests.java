@@ -1,7 +1,6 @@
 package org.jitsi.moderated;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -58,13 +57,13 @@ class ApplicationTests {
 
 			// Path must have a fixed format
 			Assertions.assertTrue(path.matches(new StringBuilder("/")
-					.append(Config.get().getTargetTenant())
+					.append(Config.getTargetTenant())
 					.append("/")
 					.append(joinInfo.getRoomName())
 					.toString()));
 
 			// Both URLs should start with the deployment URL
-			Assertions.assertTrue(url.startsWith(Config.get().getDeploymentUrl()));
+			Assertions.assertTrue(url.startsWith(Config.getDeploymentUrl()));
 		}
 
 		// We expect the room name and the moderated link room name segment to be of equal size
@@ -105,9 +104,9 @@ class ApplicationTests {
 		Assertions.assertEquals(decodedJWT.getIssuer(), Constants.JWT_ISSUER);
 		Assertions.assertEquals(decodedJWT.getSubject(), Constants.JWT_SUBJECT);
 		Assertions.assertEquals(decodedJWT.getAudience().get(0), Constants.JWT_AUDIENCE);
-		Assertions.assertEquals(decodedJWT.getKeyId(), Config.get().getPrivateKeyId());
+		Assertions.assertEquals(decodedJWT.getKeyId(), Config.getPrivateKeyId());
 		Assertions.assertEquals(joinInfo.getRoomName(), decodedJWT.getClaim(Constants.JWT_CLAIM_ROOM).asString());
-		Assertions.assertEquals(Config.get().getTargetTenant(), decodedJWT.getClaim(Constants.JWT_CLAIM_CONTEXT).asMap().get(Constants.JWT_CLAIM_CONTEXT_GROUP));
+		Assertions.assertEquals(Config.getTargetTenant(), decodedJWT.getClaim(Constants.JWT_CLAIM_CONTEXT).asMap().get(Constants.JWT_CLAIM_CONTEXT_GROUP));
 	}
 
 }

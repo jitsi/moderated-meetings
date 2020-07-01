@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "lint": "eslint --ext .ts,.tsx ./src/main/js",
-    "start": "npm run build && mvn spring-boot:run",
+    "start": "npm run build && source .env && mvn spring-boot:run",
     "test": "mvn test",
     "watch": "webpack --watch"
   },
