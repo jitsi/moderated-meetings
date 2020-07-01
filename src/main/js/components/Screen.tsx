@@ -40,38 +40,20 @@ export default class Screen<P extends Props = Props, S extends State = State> ex
 
         return (
             <>
-                <div id = 'top-gradient'></div>
                 <header>
                     <ReactSVG src = '/assets/jitsi-logo.svg' />
+                    <div id = 'header-description'>
+                        <h1 className = 'centered'>
+                            Jitsi Moderated Meetings
+                        </h1>
+                        <p className = 'centered'>
+                            Jitsi moderated meetings is a feature that lets you book a meeting
+                            URL in advance where you are the only moderator.
+                        </p>
+                    </div>
                 </header>
                 <main>
-                    <h1 className = 'centered'>
-                        Jitsi Moderated Meetings
-                    </h1>
-                    <p className = 'centered'>
-                        Jitsi moderated meetings is a feature that lets you book a meeting
-                        URL in advance where you are the only moderator.
-                    </p>
-                    <div id = 'content-box'>
-                        { this.renderContent() }
-                    </div>
-                    { /*
-                    Bookmarking doesn't seem to be available on JS level easily, so I comment this part out
-                    but don't waqnt to remove because the styling is done for it.
-                    We can probably do bookmarking through our extension later, or if an API appears for it.
-
-                    <button
-                        className = 'text'
-                        id = 'bookmark-note'
-                        onClick = { this.bookmark }>
-                        <ReactSVG
-                            id = 'bookmark-icon'
-                            src = '/assets/bookmark.svg' />
-                        <span>
-                            Bookmark this page
-                        </span>
-                    </button>
-                    */ }
+                    { this.renderContent() }
                 </main>
                 <footer>
                     <div id = 'footer-wrapper'>
@@ -116,6 +98,25 @@ export default class Screen<P extends Props = Props, S extends State = State> ex
                         </div>
                         <hr />
                         <div className = 'line-wrapper'>
+                            <p>
+                                Hello, Slack fans! Very pleased to meet you!
+                                There&apos;s no need to create an account. Just add our extension and off you go!
+                            </p>
+                            <div>
+                                <a
+                                    className = 'store-badge-wrapper'
+                                    href = {
+                                        config.slackLink
+                                        || 'https://scraperapi.slack.com/apps/A3LN30B7T-jitsi-meet'
+                                    }
+                                    rel="noreferrer"
+                                    target = '_blank'>
+                                    <img src = '/assets/slack.png' />
+                                </a>
+                            </div>
+                        </div>
+                        <hr />
+                        <div className = 'line-wrapper'>
                             <p id = 'legal-links'>
                                 <a
                                     href = 'https://jitsi.org/meet-jit-si-privacy/'
@@ -153,18 +154,20 @@ export default class Screen<P extends Props = Props, S extends State = State> ex
                         <div
                             className = 'line-wrapper'
                             id = 'copyright'>
-                            <span>
-                                8x8 is a proud supporter of the Jitsi community.
-                            </span>
                             <a
                                 href = 'https://www.8x8.com/'
                                 rel="noreferrer"
                                 target = '_blank'>
                                 <ReactSVG src = '/assets/8x8.svg' />
                             </a>
-                            <span>
-                                © 8x8, Inc. All Rights Reserved.
-                            </span>
+                            <div>
+                                <span>
+                                    8x8 is a proud supporter of the Jitsi community.
+                                </span>
+                                <span>
+                                    © 8x8, Inc. All Rights Reserved.
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </footer>

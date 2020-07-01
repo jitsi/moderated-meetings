@@ -3,11 +3,12 @@
  */
 export default interface Config {
     amplitudeKey?: string;
+    appStoreLink?: string;
     fbLink?: string;
+    fdriodLink?: string;
     githubLink?: string;
     linkedInLink?: string;
-    twitterLink?: string;
-    appStoreLink?: string;
-    fdriodLink?: string;
     playStoreLink?: string;
+    slackLink?: string;
+    twitterLink?: string;
 }
