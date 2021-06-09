@@ -5,7 +5,7 @@
 }
 
 body {
-    background: white;
+    background: $background;
     display: flex;
     font-family: 'Open Sans', sans-serif;
     font-size: $base-font-size;
@@ -22,7 +22,6 @@ button {
     flex-direction: row;
     font-size: .9em;
     justify-content: center;
-    outline: none;
 
     &.primary {
         align-self: stretch;
@@ -53,7 +52,7 @@ footer {
 footer,
 header,
 main {
-    padding: 24px;
+    padding: 10px;
 }
 
 h1 {
@@ -63,26 +62,14 @@ h1 {
 }
 
 header {
-    background: $gradient-from;
-    background: linear-gradient(180deg, $gradient-from 0%, $gradient-to 100%);
     padding: 32px 40px;
-
-    #header-description {
-        align-self: center;
-        max-width: $content-width;
-    }
 }
 
 hr {
     border: none;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
     margin: 20px 0;
-
-    &.main-separator {
-        border-top-color: #868B94;
-        margin: 10px;
-        opacity: .4;
-    }
+    width: 100%;
 }
 
 input {
@@ -99,7 +86,7 @@ main {
     align-self: center;
     flex: 1;
     flex-direction: column;
-    width: $content-width;
+    max-width: 480px;
 }
 
 p {
@@ -112,82 +99,20 @@ p {
 }
 
 .copy-field-wrapper {
-    background: #F2F3F4;
+    background: rgba(255, 255, 255, .2);
     border-radius: 4px;
     flex-direction: row;
     margin: 8px 0;
-    padding: 8px 12px;
-    transition: all .3s;
-
-    button {
-        align-items: center;
-        background: none;
-        border: none;
-        flex: 1;
-    }
+    padding: 8px;
 
     input {
         background: none;
         border: none;
-        color: $main-text;
+        color: $text;
         font-size: 1em;
         font-weight: 300;
         pointer-events: none;
         text-overflow: ellipsis;
-    }
-
-    svg {
-        fill: $main-icon
-    }
-
-    .copied-message {
-        align-items: center;
-        display: none;
-        flex: 1;
-        flex-direction: row;
-
-        > span {
-            flex: 1;
-            text-align: left;
-        }
-    }
-
-    .copy-message {
-        align-items: center;
-        color: white;
-        display: none;
-        flex: 1;
-    }
-
-    &:hover {
-        background: #36383C;
-
-        svg {
-            fill: white;
-        }
-    }
-
-    &:hover, &.copied {
-        input {
-            display: none;
-        }
-
-        .copy-message {
-            display: flex;
-        }
-    }
-
-    &.copied {
-        background: #2ABB53;
-        color: white;
-
-        input, .copy-icon, .copy-message {
-            display: none;
-        }
-
-        .copied-message {
-            display: flex;
-        }
     }
 }
 
@@ -197,10 +122,7 @@ p {
     height: 40px;
     justify-content: center;
     margin: 0 5px;
-
-    img {
-        object-fit: contain;
-    }
+    width: 135px;
 }
 
 @media (max-width: 480px) {

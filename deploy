@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+VERSION=$1
+ECR_REGISTRY=$2
+ECR_REGION=$3
+
+if [[ -z "$VERSION" || -z "$ECR_REGISTRY" ]]; then
+  echo "usage:"
+  echo "./deploy.sh [version] [ecr_registry] [[ecr_region]]"
+  exit 1
+fi
+
+if [[ -z "$ECR_REGION" ]]; then
+  REGION=us-west-2
+fi
+
+echo "building docker image"
+docker build --build-arg JAR_VERSION=${VERSION} -t ${ECR_REGISTRY}/jitsi/moderated-meetings:${VERSION} .
+echo "pushing docker image to ecr"
+aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
+docker push ${ECR_REGISTRY}/jitsi/moderated-meetings:${VERSION}

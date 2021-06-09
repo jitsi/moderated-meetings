@@ -1,10 +1,9 @@
-import CopiableField from 'components/CopiableField';
 import Screen, { Props as AbstractProps, State as AbstractState } from 'components/Screen';
 import analytics from 'functions/analytics';
 import { get } from 'functions/restUtils';
 import React, { ReactNode } from 'react';
-import { withTranslation } from 'react-i18next';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { ReactSVG } from 'react-svg';
 
 /**
  * Type interface for the URL params of the page.
@@ -66,7 +65,6 @@ class Join extends Screen<Props, State> {
      * @inheritdoc
      */
     public renderContent(): ReactNode {
-        const { t } = this.props;
         const { joinUrl } = this.state;
 
         if (!joinUrl) {
@@ -76,23 +74,68 @@ class Join extends Screen<Props, State> {
         return (
             <>
                 <div className = 'content-box-section'>
-                    <CopiableField
-                        label = { t('join.guestLinkLabel') }
-                        value = { joinUrl } />
+                    <label htmlFor = 'joinUrl'>
+                        Share meeting link for guests
+                    </label>
+                    <div className = 'copy-field-wrapper'>
+                        <input
+                            id = 'joinUrl'
+                            readOnly = { true }
+                            type = 'text'
+                            value = { joinUrl} />
+                        <button
+                            className = 'text'
+                            onClick = { this.copyUrl('joinUrl') }>
+                            <ReactSVG src = '/assets/copy.svg' />
+                        </button>
+                    </div>
                 </div>
-                <hr className = 'main-separator' />
+                <hr />
                 <div className = 'content-box-section'>
-                    <CopiableField
-                        label = { t('join.moderatorLinkLabel') }
-                        value = { document.location.href } />
+                    <label htmlFor = 'moderatorUrl'>
+                        Share this page with other moderators
+                    </label>
+                    <div className = 'copy-field-wrapper'>
+                        <input
+                            id = 'moderatorUrl'
+                            readOnly = { true }
+                            type = 'text'
+                            value = { document.location.href } />
+                        <button
+                            className = 'text'
+                            onClick = { this.copyUrl('moderatorUrl') }>
+                            <ReactSVG src = '/assets/copy.svg' />
+                        </button>
+                    </div>
                     <button
                         className = 'primary'
                         onClick = { this.joinAsModerator }>
-                        { t('join.moderatorJoinButton') }
+                        Join as moderator
                     </button>
                 </div>
             </>
         );
+    }
+
+    /**
+     * Callback to be invoked on clicking one of the copy buttons.
+     *
+     * @param fieldId The field ID to copy content from.
+     */
+    private copyUrl(fieldId: string): () => void {
+        return (): void => {
+            const copyText = document.getElementById(fieldId) as HTMLInputElement;
+
+            copyText.select();
+
+            // Workaround for mobile devices
+            copyText.setSelectionRange(0, 99999);
+            document.execCommand('copy');
+            copyText.setSelectionRange(0, 0);
+            copyText.blur();
+
+            analytics.sendAnalyticsEvent('action:copy-url', { field: fieldId });
+        };
     }
 
     /**
@@ -110,4 +153,4 @@ class Join extends Screen<Props, State> {
 
 }
 
-export default withTranslation()(withRouter(Join));
+export default withRouter(Join);

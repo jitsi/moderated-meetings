@@ -1,14 +1,17 @@
 import ConfigContext from 'components/ConfigContext';
 import Config from 'model/Config';
 import React, { PureComponent, ReactNode } from 'react';
-import { WithTranslation } from 'react-i18next';
 import { ReactSVG } from 'react-svg';
 
 /**
  * Supertype interface for the Props of the component.
  */
-export interface Props extends WithTranslation {}
+export interface Props {}
 
+
+/**
+ * Supertype interface for the State of the component.
+ */
 export interface State {}
 
 /**
@@ -24,7 +27,7 @@ const SOCIAL_LINKS = {
 /**
  * Abstract class that implements the screen type component that all screens in the app should be derived from.
  */
-export default abstract class Screen<P extends Props = Props, S extends State = State> extends PureComponent<P, S> {
+export default class Screen<P extends Props = Props, S extends State = State> extends PureComponent<P, S> {
     static contextType = ConfigContext;
 
     /**
@@ -34,23 +37,41 @@ export default abstract class Screen<P extends Props = Props, S extends State = 
      */
     public render(): ReactNode {
         const config = this.context as Config;
-        const { t } = this.props;
 
         return (
             <>
+                <div id = 'top-gradient'></div>
                 <header>
                     <ReactSVG src = '/assets/jitsi-logo.svg' />
-                    <div id = 'header-description'>
-                        <h1 className = 'centered'>
-                            { t('header.title') }
-                        </h1>
-                        <p className = 'centered'>
-                            { t('header.subTitle') }
-                        </p>
-                    </div>
                 </header>
                 <main>
-                    { this.renderContent() }
+                    <h1 className = 'centered'>
+                        Jitsi Moderated Meetings
+                    </h1>
+                    <p className = 'centered'>
+                        Jitsi moderated meetings is a feature that lets you book a meeting
+                        URL in advance where you are the only moderator.
+                    </p>
+                    <div id = 'content-box'>
+                        { this.renderContent() }
+                    </div>
+                    { /*
+                    Bookmarking doesn't seem to be available on JS level easily, so I comment this part out
+                    but don't waqnt to remove because the styling is done for it.
+                    We can probably do bookmarking through our extension later, or if an API appears for it.
+
+                    <button
+                        className = 'text'
+                        id = 'bookmark-note'
+                        onClick = { this.bookmark }>
+                        <ReactSVG
+                            id = 'bookmark-icon'
+                            src = '/assets/bookmark.svg' />
+                        <span>
+                            Bookmark this page
+                        </span>
+                    </button>
+                    */ }
                 </main>
                 <footer>
                     <div id = 'footer-wrapper'>
@@ -58,7 +79,7 @@ export default abstract class Screen<P extends Props = Props, S extends State = 
                             className = 'line-wrapper'
                             id = 'mobile-wrapper'>
                             <p>
-                                { t('footer.mobileLinksDescription') }
+                                Jitsi on mobile – download our apps and start a meeting from anywhere
                             </p>
                             <div id = 'mobile-links'>
                                 <a
@@ -95,36 +116,18 @@ export default abstract class Screen<P extends Props = Props, S extends State = 
                         </div>
                         <hr />
                         <div className = 'line-wrapper'>
-                            <p>
-                                { t('footer.slackLinksDescription') }
-                            </p>
-                            <div>
-                                <a
-                                    className = 'store-badge-wrapper'
-                                    href = {
-                                        config.slackLink
-                                        || 'https://scraperapi.slack.com/apps/A3LN30B7T-jitsi-meet'
-                                    }
-                                    rel="noreferrer"
-                                    target = '_blank'>
-                                    <img src = '/assets/slack.png' />
-                                </a>
-                            </div>
-                        </div>
-                        <hr />
-                        <div className = 'line-wrapper'>
                             <p id = 'legal-links'>
                                 <a
                                     href = 'https://jitsi.org/meet-jit-si-privacy/'
                                     rel="noreferrer"
                                     target = '_blank'>
-                                    { t('footer.privacyPolicy') }
+                                    Privacy Policy
                                 </a>
                                 <a
                                     href = 'http://jitsi.org/meet-jit-si-terms-of-service/'
                                     rel="noreferrer"
                                     target = '_blank'>
-                                    { t('footer.termsNConditions') }
+                                    Terms &amp; Conditions
                                 </a>
                             </p>
                             <div id = 'social-wrapper'>
@@ -150,20 +153,18 @@ export default abstract class Screen<P extends Props = Props, S extends State = 
                         <div
                             className = 'line-wrapper'
                             id = 'copyright'>
+                            <span>
+                                8x8 is a proud supporter of the Jitsi community.
+                            </span>
                             <a
                                 href = 'https://www.8x8.com/'
                                 rel="noreferrer"
                                 target = '_blank'>
                                 <ReactSVG src = '/assets/8x8.svg' />
                             </a>
-                            <div>
-                                <span>
-                                    { t('footer.legalNote1') }
-                                </span>
-                                <span>
-                                    { t('footer.legalNote2') }
-                                </span>
-                            </div>
+                            <span>
+                                © 8x8, Inc. All Rights Reserved.
+                            </span>
                         </div>
                     </div>
                 </footer>
