@@ -2,7 +2,6 @@ import Screen, { Props as AbstractProps, State as AbstractState } from 'componen
 import analytics from 'functions/analytics';
 import { parseQueryParams } from 'functions/urlUtils';
 import React, { ReactNode } from 'react';
-import { withTranslation } from 'react-i18next';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 /**
@@ -97,7 +96,7 @@ class Home extends Screen<Props, State> {
                 <button
                     className = 'primary'
                     onClick = { this.onGenerateMeeting }>
-                    { this.props.t('home.getLinksButton') }
+                    Get me a moderated meeting!
                 </button>
             </div>
         );
@@ -118,4 +117,4 @@ class Home extends Screen<Props, State> {
 
 }
 
-export default withTranslation()(withRouter(Home));
+export default withRouter(Home);

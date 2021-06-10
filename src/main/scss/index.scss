@@ -9,23 +9,52 @@
     color: $text;
     flex: 1;
 
-    main {
+    #top-gradient {
+        background: $gradient;
+        background: linear-gradient(180deg, $gradient 0%, color.change($gradient, $alpha: 0) 100%);
+        height: 340px;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: -1;
+    }
+
+    #content-box {
         align-items: stretch;
-        color: $main-text;
+        border: 1px solid rgba(255, 255, 255, .4);
+        border-radius: 4px;
         margin: 24px 0;
 
         .content-box-section {
-            padding: 24px 0;
+            padding: 24px;
+        }
+
+        hr {
+            margin: 0;
+        }
+    }
+
+    #bookmark-note {
+        margin: 3px 0;
+
+        #bookmark-icon {
+            margin: 0 13px;
         }
     }
 
     #footer-wrapper {
-        max-width: 688px;
+        max-width: 480px;
         padding: 40px 0;
 
         .line-wrapper {
             align-items: center;
             flex-direction: row;
+
+            img {
+                height: 100%;
+                object-fit: cover;
+                width: 100%;
+            }
 
             >span,
             >p {
@@ -37,29 +66,26 @@
             }
 
             &#copyright {
-                justify-content: flex-start;
+                justify-content: space-between;
 
-                > a {
-                    margin-right: 32px;
+                >div {
+                    margin: 0 8px;
                 }
+            }
 
-                > div > span {
-                    opacity: .6;
-                    font-size: .75em;
-                    line-height: 16px;
-                }
+            &#mobile-wrapper {
+                margin-right: 10px;
             }
 
             #mobile-links {
                 align-items: stretch;
-                flex-direction: row;
-                margin-left: 10px;
+                flex-direction: column;
 
                 > a {
-                    margin: 0 5px;
+                    margin: 5px 0;
 
                     > img {
-                        height: 100%;
+                        width: 100%;
                     }
                 }
             }
@@ -67,7 +93,6 @@
             #legal-links {
                 >a {
                     color: $text;
-                    font-weight: 500;
                     margin-right: 15px;
                     text-decoration: none;
                 }
