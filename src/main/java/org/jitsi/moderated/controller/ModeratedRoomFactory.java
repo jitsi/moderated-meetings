@@ -40,7 +40,7 @@ public class ModeratedRoomFactory {
 
         String token = JWT.create()
                 .withIssuer(Constants.JWT_ISSUER)
-                .withSubject(Constants.JWT_SUBJECT)
+                .withSubject(tenant)
                 .withAudience(Constants.JWT_AUDIENCE)
                 .withKeyId(Config.getPrivateKeyId())
                 .withClaim(Constants.JWT_CLAIM_ROOM, roomName)
