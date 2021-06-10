@@ -102,7 +102,7 @@ class ApplicationTests {
 		// The token must contain all required fields
 		DecodedJWT decodedJWT = JWT.decode(jwt);
 		Assertions.assertEquals(decodedJWT.getIssuer(), Constants.JWT_ISSUER);
-		Assertions.assertEquals(decodedJWT.getSubject(), Constants.JWT_SUBJECT);
+		Assertions.assertEquals(decodedJWT.getSubject(), Config.getTargetTenant());
 		Assertions.assertEquals(decodedJWT.getAudience().get(0), Constants.JWT_AUDIENCE);
 		Assertions.assertEquals(decodedJWT.getKeyId(), Config.getPrivateKeyId());
 		Assertions.assertEquals(joinInfo.getRoomName(), decodedJWT.getClaim(Constants.JWT_CLAIM_ROOM).asString());
