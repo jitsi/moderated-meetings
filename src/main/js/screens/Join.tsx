@@ -86,7 +86,11 @@ class Join extends Screen<Props, State> {
                         <button
                             className = 'text'
                             onClick = { this.copyUrl('joinUrl') }>
-                            <ReactSVG src = '/assets/copy.svg' />
+                            <ReactSVG src = '/assets/copy.svg'
+                                beforeInjection={(svg) => {
+                                    svg.setAttribute('fill', 'white')
+                                }}
+                            />
                         </button>
                     </div>
                 </div>
@@ -104,7 +108,11 @@ class Join extends Screen<Props, State> {
                         <button
                             className = 'text'
                             onClick = { this.copyUrl('moderatorUrl') }>
-                            <ReactSVG src = '/assets/copy.svg' />
+                            <ReactSVG src = '/assets/copy.svg'
+                                beforeInjection={(svg) => {
+                                    svg.setAttribute('fill', 'white')
+                                }}
+                            />
                         </button>
                     </div>
                     <button
