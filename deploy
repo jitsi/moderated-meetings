@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+SERVICE_NAME=moderated-meetings
+
 VERSION=$1
 ECR_REGISTRY=$2
 ECR_REGION=$3
@@ -16,7 +18,7 @@ if [[ -z "$ECR_REGION" ]]; then
 fi
 
 echo "building docker image"
-docker build --build-arg JAR_VERSION=${VERSION} -t ${ECR_REGISTRY}/jitsi/moderated-meetings:${VERSION} .
+docker build --build-arg JAR_VERSION=${VERSION} -t ${ECR_REGISTRY}/jitsi/${SERVICE_NAME}:${VERSION} .
 echo "pushing docker image to ecr"
 aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
-docker push ${ECR_REGISTRY}/jitsi/moderated-meetings:${VERSION}
+docker push ${ECR_REGISTRY}/jitsi/${SERVICE_NAME}:${VERSION}

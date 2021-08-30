@@ -18,5 +18,5 @@ WORKDIR /apps
 COPY --from=builder /opt/moderated-meetings/target/*.jar ./moderated-meetings.jar
 COPY --from=builder /opt/moderated-meetings/public ./public
 
-COPY build/run.sh /
+COPY run.sh /
 CMD ["/run.sh"]
