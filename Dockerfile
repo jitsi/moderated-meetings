@@ -7,9 +7,8 @@ RUN apt-get install --no-install-recommends -y maven openjdk-11-jdk nodejs
 
 WORKDIR /opt/moderated-meetings
 COPY . .
-RUN npm install
 RUN mvn package
-RUN npm run build
+RUN npm install && npm run build
 
 FROM openjdk:11
 
