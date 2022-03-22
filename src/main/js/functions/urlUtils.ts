@@ -6,7 +6,7 @@
  */
 export function parseQueryParams(query: string = ''): Record<string, unknown> {
     const parsedQueryParams = {};
-    const params = query.substr(query.startsWith('?') ? 1 : 0).split('&');
+    const params = query.slice(query.startsWith('?') ? 1 : 0).split('&');
 
     for (const param of params) {
         const [ key, value ] = param.split('=');
