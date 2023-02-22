@@ -1,4 +1,4 @@
-FROM debian:buster as builder
+FROM debian:bullseye as builder
 
 RUN apt-get update && apt-get install -y curl apt-utils
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
