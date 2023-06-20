@@ -2,7 +2,7 @@ import Screen, { Props as AbstractProps, State as AbstractState } from 'componen
 import analytics from 'functions/analytics';
 import { get } from 'functions/restUtils';
 import React, { ReactNode } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 
 /**
@@ -87,8 +87,8 @@ class Join extends Screen<Props, State> {
                             className = 'text'
                             onClick = { this.copyUrl('joinUrl') }>
                             <ReactSVG src = '/assets/copy.svg'
-                                beforeInjection={(svg) => {
-                                    svg.setAttribute('fill', 'white')
+                                beforeInjection={svg => {
+                                    svg.setAttribute('fill', 'white');
                                 }}
                             />
                         </button>
@@ -109,8 +109,8 @@ class Join extends Screen<Props, State> {
                             className = 'text'
                             onClick = { this.copyUrl('moderatorUrl') }>
                             <ReactSVG src = '/assets/copy.svg'
-                                beforeInjection={(svg) => {
-                                    svg.setAttribute('fill', 'white')
+                                beforeInjection={svg => {
+                                    svg.setAttribute('fill', 'white');
                                 }}
                             />
                         </button>

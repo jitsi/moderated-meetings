@@ -1,41 +1,24 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { rules } = require('eslint-config-jitsi');
-
 module.exports = {
+    root: true,
+    parser: '@typescript-eslint/parser',
     env: {
-        browser: true,
-        es6: true,
         node: true
     },
-    extends: [
-        'plugin:@typescript-eslint/recommended',
-        'plugin:react/recommended'
-    ],
-    globals: {
-        Atomics: 'readonly',
-        SharedArrayBuffer: 'readonly'
-    },
-    parser: '@typescript-eslint/parser',
     parserOptions: {
-        ecmaFeatures: {
-            jsx: true
-        },
-        ecmaVersion: 2018,
+        ecmaVersion: 2020,
         sourceType: 'module'
     },
     plugins: [
-        'react',
-        '@typescript-eslint',
-        'eslint-plugin-import'
+        '@typescript-eslint'
     ],
-    rules: {
-        ...rules,
-        'semi': 'off',
-        '@typescript-eslint/ban-ts-ignore': 'off',
-        '@typescript-eslint/explicit-function-return-type': 'error',
-        '@typescript-eslint/no-empty-interface': 'off',
-        '@typescript-eslint/no-explicit-any': 'off',
-        '@typescript-eslint/no-inferrable-types': 'off',
-        '@typescript-eslint/semi': [ 'error' ]
+    extends: [
+        '@jitsi/eslint-config'
+    ],
+    'globals': {
+        'NodeJS': true
+    },
+    'rules': {
+        'no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-vars': 'error'
     }
 };

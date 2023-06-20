@@ -2,7 +2,7 @@ import Screen, { Props as AbstractProps, State as AbstractState } from 'componen
 import analytics from 'functions/analytics';
 import { parseQueryParams } from 'functions/urlUtils';
 import React, { ReactNode } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 /**
  * Type interface for the possible query params of the page.
