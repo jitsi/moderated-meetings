@@ -1,6 +1,6 @@
 import { createBrowserHistory } from 'history';
 import React, { PureComponent, ReactNode } from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
+import { Route, Router, Switch } from 'react-router-dom';
 import Home from 'screens/Home';
 import Join from 'screens/Join';
 

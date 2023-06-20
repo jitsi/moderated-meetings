@@ -1,7 +1,7 @@
 /**
  * Interface to store the config that was downloaded from the server.
  */
-export default interface Config {
+interface Config {
     amplitudeKey?: string;
     fbLink?: string;
     githubLink?: string;
@@ -11,3 +11,5 @@ export default interface Config {
     fdriodLink?: string;
     playStoreLink?: string;
 }
+
+export default Config;
