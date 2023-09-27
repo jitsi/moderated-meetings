@@ -12,12 +12,18 @@ Moderated Meetings.
    https://github.com/jitsi/lib-jitsi-meet/blob/master/doc/tokens.md
 3. Create a `.env` file with environment variables in the following format:
 ```
-DEPLOYMENT_URL=<url to the Jitsi deployment>
+DEPLOYMENT_URL=<url to the Jitsi deployment with / at the end>
 PORT=<port to run this Spring Boot application on>
 PRIVATE_KEY_FILE=<absolute path to the private key in DER format>
-PRIVATE_KEY_ID=<fixed ID of the private key>
+PRIVATE_KEY_ID=<fixed ID of the private key, this will be the kid of the generated tokens>
 TARGET_TENANT=<the tenant to be moderated; URLs will begin with https://[DEPLOYMENT_URL]/[TARGET_TENANT]>
 ```
+
+To generate the der file used for `PRIVATE_KEY_FILE`:
+```
+openssl rsa -inform pem -in jitsi-private.pem -outform der -out PrivateKey.der
+```
+
 4. ``npm start``
 5. Open ``http://localhost:[PORT]/``
 
