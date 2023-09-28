@@ -38,7 +38,8 @@ public abstract class Config {
     }
 
     public static int getServerPort() {
-        return Integer.parseInt(System.getenv("PORT"));
+        String port = System.getenv("PORT");
+        return port != null ? Integer.parseInt(port) : 8080;
     }
 
     public static String getTargetTenant() {
