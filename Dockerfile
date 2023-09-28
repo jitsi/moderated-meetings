@@ -1,7 +1,7 @@
-FROM debian:buster as builder
+FROM debian:bullseye as builder
 
 RUN apt-get update && apt-get install -y curl apt-utils
-RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get update
 RUN apt-get install --no-install-recommends -y maven openjdk-11-jdk nodejs
 
