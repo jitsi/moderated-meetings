@@ -61,10 +61,6 @@ public class ModeratedRoomFactory {
 
         Map<String, Object> context = new HashMap<>();
 
-        if (tenant != null) {
-            context.put(Constants.JWT_CLAIM_CONTEXT_GROUP, tenant);
-        }
-
         JWTCreator.Builder builder = JWT.create()
             .withIssuer(Constants.JWT_ISSUER)
             .withSubject(tenant != null ? tenant : deploymentHost)
@@ -78,14 +74,14 @@ public class ModeratedRoomFactory {
             UserInfo info = (UserInfo) auth.getPrincipal();
 
             builder
+                .withClaim(Constants.JWT_CLAIM_USER_ID, info.getUid())
                 .withClaim(Constants.JWT_CLAIM_NAME, info.getName())
                 .withClaim(Constants.JWT_CLAIM_EMAIL, info.getEmail())
                 .withClaim(Constants.JWT_CLAIM_PICTURE, info.getPicture());
-
-            Map<String, String> userContext = new HashMap<>();
-            userContext.put(Constants.JWT_CLAIM_CONTEXT_USER_ID, info.getUid());
-
-            context.put(Constants.JWT_CLAIM_CONTEXT_USER, userContext);
+        } else {
+            if (tenant != null) {
+                context.put(Constants.JWT_CLAIM_CONTEXT_GROUP, tenant);
+            }
         }
 
         if (!context.isEmpty()) {

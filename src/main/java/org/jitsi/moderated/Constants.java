@@ -22,8 +22,7 @@ public abstract class Constants {
     public static final String JWT_AUDIENCE = "jitsi";
     public static final String JWT_CLAIM_CONTEXT = "context";
     public static final String JWT_CLAIM_CONTEXT_GROUP = "group";
-    public static final String JWT_CLAIM_CONTEXT_USER = "user";
-    public static final String JWT_CLAIM_CONTEXT_USER_ID = "id";
+    public static final String JWT_CLAIM_USER_ID = "user_id";
     public static final String JWT_CLAIM_ROOM = "room";
     public static final String JWT_CLAIM_NAME = "name";
     public static final String JWT_CLAIM_PICTURE= "picture";
