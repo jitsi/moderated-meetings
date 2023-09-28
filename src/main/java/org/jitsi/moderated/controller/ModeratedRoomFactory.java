@@ -28,7 +28,7 @@ import org.jitsi.moderated.model.ModeratedRoom;
 import org.springframework.security.core.*;
 import org.springframework.security.core.context.*;
 
-import java.net.MalformedURLException;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -53,14 +53,21 @@ public class ModeratedRoomFactory {
     }
 
     public JoinInfo getJoinInfo(ModeratedRoom room) throws NoSuchAlgorithmException, MalformedURLException {
+        String deployment = Config.getDeploymentUrl();
+        String deploymentHost = new URL(deployment).getHost();
+
         String roomName = Hashing.sha256().hashString(room.getMeetingId(), StandardCharsets.UTF_8).toString();
-        Map<String, Object> context = new HashMap<>();
         String tenant = Config.getTargetTenant();
-        context.put(Constants.JWT_CLAIM_CONTEXT_GROUP, tenant);
+
+        Map<String, Object> context = new HashMap<>();
+
+        if (tenant != null) {
+            context.put(Constants.JWT_CLAIM_CONTEXT_GROUP, tenant);
+        }
 
         JWTCreator.Builder builder = JWT.create()
             .withIssuer(Constants.JWT_ISSUER)
-            .withSubject(tenant)
+            .withSubject(tenant != null ? tenant : deploymentHost)
             .withAudience(Constants.JWT_AUDIENCE)
             .withKeyId(Config.getPrivateKeyId())
             .withClaim(Constants.JWT_CLAIM_ROOM, roomName);
@@ -70,7 +77,7 @@ public class ModeratedRoomFactory {
         if (auth != null && auth.isAuthenticated() && auth.getPrincipal() instanceof UserInfo) {
             UserInfo info = (UserInfo) auth.getPrincipal();
 
-            builder = builder
+            builder
                 .withClaim(Constants.JWT_CLAIM_NAME, info.getName())
                 .withClaim(Constants.JWT_CLAIM_EMAIL, info.getEmail())
                 .withClaim(Constants.JWT_CLAIM_PICTURE, info.getPicture());
@@ -80,14 +87,20 @@ public class ModeratedRoomFactory {
 
             context.put(Constants.JWT_CLAIM_CONTEXT_USER, userContext);
         }
-        builder = builder.withClaim(Constants.JWT_CLAIM_CONTEXT, context);
+
+        if (!context.isEmpty()) {
+            builder.withClaim(Constants.JWT_CLAIM_CONTEXT, context);
+        }
 
         String token = builder.sign(this.algorithm);
 
-        StringBuffer baseUrl = new StringBuffer(Config.getDeploymentUrl())
-                .append(tenant)
-                .append("/")
-                .append(roomName);
+        StringBuilder baseUrl = new StringBuilder(deployment);
+
+        if (tenant != null) {
+            baseUrl.append(tenant).append("/");
+        }
+
+        baseUrl.append(roomName);
 
         return new JoinInfo(roomName, baseUrl.toString(), baseUrl
                 .append("?")
