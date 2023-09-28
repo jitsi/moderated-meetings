@@ -10,6 +10,7 @@ interface Config {
     appStoreLink?: string;
     fdriodLink?: string;
     playStoreLink?: string;
+    tokenAuthUrl?: string;
 }
 
 export default Config;

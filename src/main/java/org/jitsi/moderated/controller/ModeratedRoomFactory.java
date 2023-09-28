@@ -17,13 +17,16 @@
  */
 package org.jitsi.moderated.controller;
 
-import com.auth0.jwt.JWT;
+import com.auth0.jwt.*;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.google.common.hash.Hashing;
 import org.jitsi.moderated.Config;
 import org.jitsi.moderated.Constants;
+import org.jitsi.moderated.jwt.*;
 import org.jitsi.moderated.model.JoinInfo;
 import org.jitsi.moderated.model.ModeratedRoom;
+import org.springframework.security.core.*;
+import org.springframework.security.core.context.*;
 
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
@@ -51,18 +54,35 @@ public class ModeratedRoomFactory {
 
     public JoinInfo getJoinInfo(ModeratedRoom room) throws NoSuchAlgorithmException, MalformedURLException {
         String roomName = Hashing.sha256().hashString(room.getMeetingId(), StandardCharsets.UTF_8).toString();
-        Map<String, String> context = new HashMap<>();
+        Map<String, Object> context = new HashMap<>();
         String tenant = Config.getTargetTenant();
         context.put(Constants.JWT_CLAIM_CONTEXT_GROUP, tenant);
 
-        String token = JWT.create()
-                .withIssuer(Constants.JWT_ISSUER)
-                .withSubject(tenant)
-                .withAudience(Constants.JWT_AUDIENCE)
-                .withKeyId(Config.getPrivateKeyId())
-                .withClaim(Constants.JWT_CLAIM_ROOM, roomName)
-                .withClaim(Constants.JWT_CLAIM_CONTEXT, context)
-                .sign(this.algorithm);
+        JWTCreator.Builder builder = JWT.create()
+            .withIssuer(Constants.JWT_ISSUER)
+            .withSubject(tenant)
+            .withAudience(Constants.JWT_AUDIENCE)
+            .withKeyId(Config.getPrivateKeyId())
+            .withClaim(Constants.JWT_CLAIM_ROOM, roomName);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth != null && auth.isAuthenticated() && auth.getPrincipal() instanceof UserInfo) {
+            UserInfo info = (UserInfo) auth.getPrincipal();
+
+            builder = builder
+                .withClaim(Constants.JWT_CLAIM_NAME, info.getName())
+                .withClaim(Constants.JWT_CLAIM_EMAIL, info.getEmail())
+                .withClaim(Constants.JWT_CLAIM_PICTURE, info.getPicture());
+
+            Map<String, String> userContext = new HashMap<>();
+            userContext.put(Constants.JWT_CLAIM_CONTEXT_USER_ID, info.getUid());
+
+            context.put(Constants.JWT_CLAIM_CONTEXT_USER, userContext);
+        }
+        builder = builder.withClaim(Constants.JWT_CLAIM_CONTEXT, context);
+
+        String token = builder.sign(this.algorithm);
 
         StringBuffer baseUrl = new StringBuffer(Config.getDeploymentUrl())
                 .append(tenant)

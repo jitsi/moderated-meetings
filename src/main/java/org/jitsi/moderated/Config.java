@@ -17,8 +17,11 @@
  */
 package org.jitsi.moderated;
 
+import org.springframework.boot.json.*;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.*;
 
 public abstract class Config {
 
@@ -40,5 +43,22 @@ public abstract class Config {
 
     public static String getTargetTenant() {
         return System.getenv("TARGET_TENANT");
+    }
+
+    public static String getJwtKeysCacheUrl() {
+        return System.getenv("JWT_PUB_KEYS_CACHE_URL");
+    }
+
+    public static String getTokenAuthUrl() {
+        return System.getenv("TOKEN_AUTH_URL");
+    }
+
+    public static Map<String, Object> getJwtVerify() {
+        String verify = System.getenv("JWT_VERIFY");
+        if (verify != null) {
+            return JsonParserFactory.getJsonParser().parseMap(System.getenv("JWT_VERIFY"));
+        }
+
+        return new HashMap<>();
     }
 }

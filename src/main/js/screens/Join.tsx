@@ -5,6 +5,8 @@ import React, { ReactNode } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
 
+import Config from '../model/Config';
+
 /**
  * Type interface for the URL params of the page.
  */
@@ -49,7 +51,27 @@ class Join extends Screen<Props, State> {
      */
     async componentDidMount(): Promise<void> {
         const { meetingId } = this.props.match.params;
-        const { joinUrl, moderatorUrl } = await get(`/rest/rooms/${meetingId}`);
+
+        const token = new URLSearchParams(window.location.search).get('jwt');
+        let extraParams = '';
+
+        if (token) {
+            extraParams = `?jwt=${token}`;
+        }
+
+        const { joinUrl, moderatorUrl, error, status } = await get(`/rest/rooms/${meetingId}${extraParams}`);
+
+        const config = this.context as Config;
+
+        if (error && status === 401 && config.tokenAuthUrl) {
+            let url = config.tokenAuthUrl;
+
+            url = url.replace('{state}', encodeURIComponent(JSON.stringify({
+                room: meetingId
+            })));
+
+            window.location.href = url;
+        }
 
         this.setState({
             joinUrl,
