@@ -42,6 +42,9 @@ public class ClientConfig {
     private String fdriodLink;
     private String playStoreLink;
 
+    // The authenticate link
+    private String tokenAuthUrl;
+
     private ClientConfig() { }
 
     public String getAmplitudeKey() {
@@ -74,6 +77,10 @@ public class ClientConfig {
 
     public String getPlayStoreLink() {
         return playStoreLink;
+    }
+
+    public String getTokenAuthUrl() {
+        return tokenAuthUrl;
     }
 
     /**
