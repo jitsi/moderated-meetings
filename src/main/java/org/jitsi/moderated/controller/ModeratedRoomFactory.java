@@ -96,6 +96,10 @@ public class ModeratedRoomFactory {
 
         StringBuilder baseUrl = new StringBuilder(deployment);
 
+        if (!deployment.endsWith("/")) {
+            baseUrl.append("/");
+        }
+
         if (tenant != null) {
             baseUrl.append(tenant).append("/");
         }
