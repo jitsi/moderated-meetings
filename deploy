@@ -19,7 +19,7 @@ if [[ -z "$ECR_REGION" ]]; then
 fi
 
 echo "building docker image"
-docker build --build-arg JAR_VERSION=${VERSION} -t ${ECR_REGISTRY}/jitsi/${SERVICE_NAME}:${VERSION} .
+docker build --platform linux/amd64 --build-arg JAR_VERSION=${VERSION} -t ${ECR_REGISTRY}/jitsi/${SERVICE_NAME}:${VERSION} .
 echo "pushing docker image to ecr"
 aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
 docker push ${ECR_REGISTRY}/jitsi/${SERVICE_NAME}:${VERSION}
