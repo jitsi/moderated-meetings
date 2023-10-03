@@ -65,7 +65,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 }
             } catch (JWTVerificationException exception){
                 // Invalid signature/claims
-                logger.error("Invalid signature/claims: " + exception.getCause().getMessage());
+                logger.error("Invalid signature/claims: "
+                        + (exception.getCause() != null ? exception.getCause().getMessage() : exception));
             }
         }
 
