@@ -1,6 +1,5 @@
 import Screen, { Props as AbstractProps, State as AbstractState } from 'components/Screen';
 import analytics from 'functions/analytics';
-import { get } from 'functions/restUtils';
 import React, { ReactNode } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { ReactSVG } from 'react-svg';
