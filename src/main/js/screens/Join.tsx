@@ -51,7 +51,7 @@ class Join extends Screen<Props, State> {
      */
     async componentDidMount(): Promise<void> {
         const { meetingId } = this.props.match.params;
-
+        const config = this.context as Config;
         const token = new URLSearchParams(window.location.search).get('jwt');
         let extraParams = '';
 
@@ -59,18 +59,47 @@ class Join extends Screen<Props, State> {
             extraParams = `?jwt=${token}`;
         }
 
-        const { joinUrl, moderatorUrl, error, status } = await get(`/rest/rooms/${meetingId}${extraParams}`);
+        const fetchOptions = {};
 
-        const config = this.context as Config;
+        if (config.tokenAuthUrl) {
+            // we want to disable redirect and manually handle that
+            // @ts-ignore
+            fetchOptions.redirect = 'manual';
+        }
 
-        if (error && status === 401 && config.tokenAuthUrl) {
-            let url = config.tokenAuthUrl;
+        const roomsResponse = await fetch(`/rest/rooms/${meetingId}${extraParams}`, fetchOptions);
 
-            url = url.replace('{state}', encodeURIComponent(JSON.stringify({
+        // status 0 is special status when redirected in manual mode
+        if (roomsResponse.status === 0 && config.tokenAuthUrl) {
+            let tokenUrl = config.tokenAuthUrl;
+
+            tokenUrl = tokenUrl.replace('{state}', encodeURIComponent(JSON.stringify({
                 room: meetingId
             })));
 
-            window.location.href = url;
+            window.location.href = tokenUrl;
+
+            return;
+        }
+
+        const { joinUrl, moderatorUrl, error, status } = await roomsResponse.json();
+
+        if (config.tokenAuthUrl) {
+            if (error && status === 401) {
+                let tokenUrl = config.tokenAuthUrl;
+
+                tokenUrl = tokenUrl.replace('{state}', encodeURIComponent(JSON.stringify({
+                    room: meetingId
+                })));
+
+                window.location.href = tokenUrl;
+            } else if (!error) {
+                // let's rewrite url and hide the jwt
+                history.replaceState(
+                    history.state,
+                    document?.title || '',
+                    location.pathname);
+            }
         }
 
         this.setState({
