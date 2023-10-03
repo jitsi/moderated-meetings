@@ -26,6 +26,7 @@ import org.springframework.security.core.context.*;
 import org.springframework.stereotype.*;
 import org.springframework.web.filter.*;
 
+import javax.annotation.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.*;
@@ -37,11 +38,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain chain)
+                                    @Nonnull HttpServletResponse response,
+                                    @Nonnull FilterChain chain)
             throws ServletException, IOException {
         String token = request.getParameter("jwt");
-        DecodedJWT decodedJWT = null;
+        DecodedJWT decodedJWT;
         if (token != null) {
             try {
                 Algorithm algorithm = Algorithm.RSA256(keyProvider);
