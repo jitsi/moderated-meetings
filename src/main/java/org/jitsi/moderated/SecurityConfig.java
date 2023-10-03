@@ -17,18 +17,25 @@
  */
 package org.jitsi.moderated;
 
+import com.fasterxml.jackson.databind.*;
+import org.apache.commons.logging.*;
+import org.springframework.http.*;
 import org.springframework.security.config.annotation.web.builders.*;
 import org.springframework.security.config.annotation.web.configuration.*;
 import org.springframework.security.config.http.*;
 import org.springframework.security.web.authentication.*;
 
 import javax.servlet.http.*;
+import java.net.*;
+import java.util.*;
 
 /**
  * Configures the web security if TOKEN_AUTH_URL is set.
  */
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final Log logger = LogFactory.getLog(this.getClass());
+
     private final JwtTokenFilter jwtTokenFilter;
 
     public SecurityConfig(JwtTokenFilter jwtTokenFilter) {
@@ -55,6 +62,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint(
                         (request, response, ex) -> {
+                            try {
+                                String requestPath = new URI(request.getRequestURI()).getPath();
+
+                                if (requestPath.startsWith("/")) {
+                                    requestPath = requestPath.substring(1);
+                                }
+
+                                String url = Config.getTokenAuthUrl();
+
+                                Map<String,String> payload = new HashMap<>();
+                                payload.put("room", requestPath);
+
+                                url = url.replace("{state}", new ObjectMapper().writeValueAsString(payload));
+
+                                response.setHeader("Location", new URI(null, url, null).toASCIIString());
+                                response.setStatus(HttpStatus.FOUND.value());
+
+                                return;
+
+                            } catch (URISyntaxException e) {
+                                logger.error(e);
+                            }
+
                             response.sendError(
                                     HttpServletResponse.SC_UNAUTHORIZED,
                                     ex.getMessage()
@@ -67,6 +97,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 // Our public endpoints
                 .antMatchers("/").permitAll()
+                .antMatchers("/favicon.ico").permitAll()
                 .antMatchers("/app.js").permitAll()
                 .antMatchers("/assets/*").permitAll()
                 .antMatchers("/rest/rooms").permitAll()
