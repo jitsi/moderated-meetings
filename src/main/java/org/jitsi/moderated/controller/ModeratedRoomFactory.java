@@ -103,10 +103,12 @@ public class ModeratedRoomFactory {
         baseUrl.append(roomName);
 
         return new JoinInfo(roomName, baseUrl.toString(), baseUrl
-                .append("?")
+                .append("#")
                 .append(Constants.JWT_URL_PARAM_NAME)
                 .append("=")
+                .append('"')
                 .append(token)
+                .append('"')
                 .toString());
     }
 
