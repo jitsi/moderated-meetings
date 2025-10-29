@@ -115,7 +115,7 @@ class Join extends Screen<Props, State> {
      * @inheritdoc
      */
     public renderContent(): ReactNode {
-        const { joinUrl } = this.state;
+        const { joinUrl, moderatorUrl } = this.state;
 
         if (!joinUrl) {
             return null;
@@ -147,14 +147,14 @@ class Join extends Screen<Props, State> {
                 <hr />
                 <div className = 'content-box-section'>
                     <label htmlFor = 'moderatorUrl'>
-                        Share this page with other moderators
+                        Share this link with other moderators
                     </label>
                     <div className = 'copy-field-wrapper'>
-                        <input
+                        <textarea
                             id = 'moderatorUrl'
                             readOnly = { true }
-                            type = 'text'
-                            value = { document.location.href } />
+                            rows = { 4 }
+                            value = { moderatorUrl } />
                         <button
                             className = 'text'
                             onClick = { this.copyUrl('moderatorUrl') }>
