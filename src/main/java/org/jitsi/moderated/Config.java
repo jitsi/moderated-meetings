@@ -46,6 +46,14 @@ public abstract class Config {
         return System.getenv("TARGET_TENANT");
     }
 
+    /**
+     * Get the duration for the token in seconds.
+     */
+    public static int getDuration() {
+        String duration = System.getenv("DURATION");
+        return duration != null ? Integer.parseInt(duration) : 3600 * 4;
+    }
+
     public static String getJwtKeysCacheUrl() {
         return System.getenv("JWT_PUB_KEYS_CACHE_URL");
     }

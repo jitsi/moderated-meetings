@@ -36,6 +36,7 @@ import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.time.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -66,6 +67,8 @@ public class ModeratedRoomFactory {
             .withSubject(tenant != null ? tenant : deploymentHost)
             .withAudience(Constants.JWT_AUDIENCE)
             .withKeyId(Config.getPrivateKeyId())
+            .withIssuedAt(Instant.now())
+            .withExpiresAt(Instant.now().plusSeconds(Config.getDuration()))
             .withClaim(Constants.JWT_CLAIM_ROOM, roomName);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
